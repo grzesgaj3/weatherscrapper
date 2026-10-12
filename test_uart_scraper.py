@@ -24,6 +24,12 @@ class ParserTests(unittest.TestCase):
             },
         )
 
+    def test_parses_uart_format_with_sender_module_prefix(self) -> None:
+        self.assertEqual(
+            parse_measurement("zt01: " + SAMPLE),
+            parse_measurement(SAMPLE),
+        )
+
     def test_rejects_missing_field(self) -> None:
         with self.assertRaises(InvalidMeasurement):
             parse_measurement("MW,t=23.41,h=48.20")

@@ -64,7 +64,18 @@ def _parse_bool(value: str, field: str) -> bool:
 
 
 def parse_measurement(line: str) -> dict[str, Any]:
-    """Convert ``MW,t=23.41,...`` into the API JSON object."""
+    """Convert a UART line into the API JSON object.
+
+    The sender may prepend its module name, for example
+    ``zt01: MW,t=23.41,...``. The module name is transport metadata and is
+    intentionally not included in the measurement sent to the API.
+    """
+    line = line.strip()
+    if not line.startswith("MW"):
+        sender, separator, payload = line.partition(":")
+        if separator and sender.strip() and payload.strip().startswith("MW"):
+            line = payload.strip()
+
     fields = [part.strip() for part in line.strip().split(",")]
     if not fields or fields[0] != "MW":
         raise InvalidMeasurement("line must start with MW")

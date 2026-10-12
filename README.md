@@ -39,6 +39,16 @@ Oczekiwany format linii to:
 MW,t=23.41,h=48.20,p=1012.55,r=12,ra=901,mq=387,aht=1,bmp=1
 ```
 
+Moduł nadawczy może poprzedzić wiadomość swoją nazwą. Prefiks jest oddzielony
+dwukropkiem i spacją, a następnie jest właściwa ramka pomiarowa:
+
+```text
+zt01: MW,t=23.41,h=48.20,p=1012.55,r=12,ra=901,mq=387,aht=1,bmp=1
+```
+
+Nazwa modułu (`zt01`) jest używana wyłącznie jako prefiks transportowy i nie
+jest przekazywana do Weather API.
+
 `aht` i `bmp` są wysyłane jako wartości JSON `true`/`false`. Uszkodzone
 linie są pomijane i logowane. Błędy HTTP są logowane, a proces czeka
 `RETRY_DELAY` sekund przed dalszym odczytem.
